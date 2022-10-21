@@ -1,9 +1,13 @@
 //Section Set the variable
+//for server and framework
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
 
-//server related variable
+//invoke the list of data
+const restaurantList = require('./restaurant.json')
+
+//server connection port
 const port = 3000;
 
 //Section Set template engine
@@ -14,9 +18,10 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 
 //Section Routes setting
-//todo 待修正
+//todo set the route to list
 app.get("/", (req, res) => {
-  res.render("index");
+  
+  res.render("index", { restaurantList: restaurantList.results });
 });
 
 //Section Express server start and listen
