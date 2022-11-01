@@ -26,13 +26,13 @@ app.get("/", (req, res) => {
 //todo set the route to the description of restaurant(params)
 app.get("/restaurants/:restaurant_id", (req, res) => {
   // console.log(req.params.restaurant_id);
-  const restaurantId = restaurantList.find(
+  const restaurantInfo = restaurantList.find(
     (restaurant) => restaurant.id.toString() === req.params.restaurant_id
   );
 
-  // console.log(restaurantId);
+  // console.log(restaurantInfo);
 
-  res.render("show", { restaurantInfo: restaurantId });
+  res.render("show", { restaurantInfo });
 });
 
 //todo set the route for search bar
