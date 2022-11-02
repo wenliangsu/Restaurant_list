@@ -1,2 +1,12 @@
-/node_modules
+# Mac OS
 .DS_Store
+Icon?
+._*
+
+# npm
+node_modules
+*.log
+*.gz
+
+# dotenv(環境變數管理用的工具)
+.env

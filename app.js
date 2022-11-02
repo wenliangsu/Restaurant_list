@@ -1,8 +1,30 @@
-//Section Set the variable
-//for server and framework
+//Section Set the variable and connect the database
+//for server, framework and database｀
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
+
+//connect the database
+const mongoose = require("mongoose");
+
+//note非正式環境時使用dotenv
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
+//note 可直接使用mongoDB的連線位址: mongoose.connect('<mongoDB的連線url>')
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const db = mongoose.connection;
+//database connect status
+db.on("error", () => {
+  console.log("mongoDB error");
+});
+db.once("open", () => {
+  console.log("mongoDB connected!");
+});
 
 //invoke the list of data
 const restaurantList = require("./restaurant.json").results;
