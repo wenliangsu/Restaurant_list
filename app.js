@@ -5,7 +5,7 @@ const app = express();
 const exphbs = require("express-handlebars");
 const Restaurant = require("./models/restaurant");
 //invoke the list of data
-const restaurantList = require("./restaurant.json").results;
+// const restaurantList = require("./restaurant.json").results;
 
 //server connection port
 const port = 3000;
@@ -37,8 +37,10 @@ db.once("open", () => {
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-//Section Static file
+//Section Static file and body-parser
 app.use(express.static("public"));
+
+app.use(express.urlencoded({ extended: true }));
 
 //Section Routes setting
 //todo read all the restaurant data
@@ -49,7 +51,72 @@ app.get("/", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+//todo create the new restaurant information
+app.get("/restaurants/new", (req, res) => {
+  res.render("new");
+});
 
+app.post("/restaurants", (req, res) => {
+  //Method(1)使用save
+  const newData = req.body;
+  // console.log(newData)
+  //note 因傳進來的為一個物件，將其用展開運算子後，一個一個帶入
+  const newInfo = new Restaurant({ ...newData });
+
+  return newInfo
+    .save()
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
+
+  //Method(2) 直接建立create
+  Restaurant.create(req.body)
+    .then(() => res.redirect("/"))
+    .catch((error) => console.log(error));
+});
+
+//!!以下尚未完成
+// //todo set the route to the description of restaurant(params)
+// app.get("/restaurants/:restaurant_id", (req, res) => {
+//   // console.log(req.params.restaurant_id);
+//   const restaurantInfo = restaurantList.find(
+//     (restaurant) => restaurant.id.toString() === req.params.restaurant_id
+//   );
+
+//   // console.log(restaurantInfo);
+
+//   res.render("show", { restaurantInfo });
+// });
+
+// //todo set the route for search bar
+// app.get("/search", (req, res) => {
+//   // console.log(req.query.keyword)
+//   //note 為了讓使用者知道自己搜尋的關鍵字為何，故多宣告一個變數可放在handlebars的input value裡面
+//   const keywordByUser = req.query.keyword;
+//   const keyword = req.query.keyword.toLowerCase().trim();
+//   const filteredRestaurant = restaurantList.filter((restaurant) => {
+//     return (
+//       restaurant.name.toLowerCase().includes(keyword) ||
+//       restaurant.category.toLowerCase().includes(keyword)
+//     );
+//   });
+
+//   // console.log(filteredRestaurant)
+
+//   if (!keywordByUser) {
+//     //未輸入關鍵字
+//     //note res.redirect可以返回指定的url
+//     res.redirect("/");
+//   } else if (filteredRestaurant.length === 0) {
+//     //未比對到搜尋結果
+//     res.render("search");
+//   } else {
+//     //比對到後的結果
+//     res.render("index", {
+//       restaurantList: filteredRestaurant,
+//       keyword: keywordByUser,
+//     });
+//   }
+// });
 
 //Section Express server start and listen
 app.listen(port, () => {

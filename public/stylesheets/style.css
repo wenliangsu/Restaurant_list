@@ -79,6 +79,16 @@ header {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* .title {
+  position: relative;
+  top: 10px;
+  color: black;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} */
+
 @media screen and (max-width: 992px) {
   .card img {
     height: 115px;
