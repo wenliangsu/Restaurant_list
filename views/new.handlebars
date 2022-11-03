@@ -1,139 +1,141 @@
-<h2 class="text-center mt-4">新增餐廳</h2>
-<div class="container">
-  <form action="/restaurants" method="POST">
-    <div class="form-group mb-4 mt-6">
-      <label for="name" class="form-label">中文店名 (Shop name in chinese)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        name="name"
-        maxlength="20"
-        placeholder="請輸入中文店名..."
-        required
-      />
-    </div>
+<div class="new-restaurant-form">
+  <h2 class="text-center mt-4">新增餐廳</h2>
+  <div class="container">
+    <form action="/restaurants" method="POST">
+      <div class="form-group mb-4 mt-6">
+        <label for="name" class="form-label">中文店名 (Shop name in chinese)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          maxlength="20"
+          placeholder="請輸入中文店名..."
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="name_en" class="form-label">英文店名 (Shop name in english)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name_en"
-        name="name_en"
-        placeholder="Enter your shop name in english..."
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="name_en" class="form-label">英文店名 (Shop name in english)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name_en"
+          name="name_en"
+          placeholder="Enter your shop name in english..."
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="category" class="form-label">料理類別(Food style)</label>
-      <input
-        list="category-options"
-        class="form-control"
-        id="category"
-        name="category"
-        placeholder="如無需要的選項，請自行填寫 (If you don't find out the option, please type yourself.)"
-        required
-      />
-      <datalist id="category-options">
-        <option>義式料理 (Italy)</option>
-        <option>法式料理 (French)</option>
-        <option>日本料理 (Japan)</option>
-        <option>中東料理 (Middle East)</option>
-        <option>中式料理 (Chinese</option>
-        <option>歐式料理 (European)</option>
-        <option>酒吧 (Bar)</option>
-        <option>咖啡廳 (Cafe)</option>
-      </datalist>
-    </div>
+      <div class="form-group mt-4">
+        <label for="category" class="form-label">料理類別(Food style)</label>
+        <input
+          list="category-options"
+          class="form-control"
+          id="category"
+          name="category"
+          placeholder="如無需要的選項，請自行填寫 (If you don't find out the option, please type yourself.)"
+          required
+        />
+        <datalist id="category-options">
+          <option>義式料理 (Italy)</option>
+          <option>法式料理 (French)</option>
+          <option>日本料理 (Japan)</option>
+          <option>中東料理 (Middle East)</option>
+          <option>中式料理 (Chinese</option>
+          <option>歐式料理 (European)</option>
+          <option>酒吧 (Bar)</option>
+          <option>咖啡廳 (Cafe)</option>
+        </datalist>
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="image" class="form-label">店面照片 (Shop picture)</label>
-      <input
-        type="url"
-        class="form-control"
-        id="image"
-        name="image"
-        placeholder="請輸入圖片網址 (shop picture) https://..."
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="image" class="form-label">店面照片 (Shop picture)</label>
+        <input
+          type="url"
+          class="form-control"
+          id="image"
+          name="image"
+          placeholder="請輸入圖片網址 (shop picture) https://..."
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="location" class="form-label">店面地址 (Address)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="location"
-        name="location"
-        placeholder="請輸入店家地址 (Please input the address)"
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="location" class="form-label">店面地址 (Address)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          name="location"
+          placeholder="請輸入店家地址 (Please input the address)"
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="phone" class="form-label">聯絡電話 (Shop phone number)</label>
-      <input
-        {{! !!注意電話的部分會不會變成number，資料格式是屬於字串 }}
-        type="tel"
-        class="form-control"
-        id="phone"
-        name="phone"
-        placeholder="請輸入電話號碼 (please type your phone)"
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="phone" class="form-label">聯絡電話 (Shop phone number)</label>
+        <input
+          {{! !!注意電話的部分會不會變成number，資料格式是屬於字串 }}
+          type="tel"
+          class="form-control"
+          id="phone"
+          name="phone"
+          placeholder="請輸入電話號碼 (please type your phone)"
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="google_map" class="form-label">Google地圖連結 (Google Map)</label>
-      <input
-        type="url"
-        class="form-control"
-        id="google_map"
-        name="google_map"
-        placeholder="Google地圖網址 (Google map website)"
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="google_map" class="form-label">Google地圖連結 (Google Map)</label>
+        <input
+          type="url"
+          class="form-control"
+          id="google_map"
+          name="google_map"
+          placeholder="Google地圖網址 (Google map website)"
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4">
-      <label for="rating" class="form-label">評分 (Rating)</label>
-      <input
-        type="number"
-        class="form-control"
-        id="rating"
-        name="rating"
-        min="1"
-        max="5"
-        step="0.1"
-        placeholder="請輸入google的評分 (Please input your google's rating)"
-        required
-      />
-    </div>
+      <div class="form-group mt-4">
+        <label for="rating" class="form-label">評分 (Rating)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="rating"
+          name="rating"
+          min="1"
+          max="5"
+          step="0.1"
+          placeholder="請輸入google的評分 (Please input your google's rating)"
+          required
+        />
+      </div>
 
-    <div class="form-group mt-4 mb-4">
-      <label for="description" class="form-label">餐廳介紹 (introduction)</label>
-      <textarea
-        type="url"
-        class="form-control"
-        id="description"
-        name="description"
-        rows="5"
-        maxlength="300"
-        placeholder="請在300字以內介紹自己的餐廳 (Please type the words less than 300)"
-        required
-      ></textarea>
-    </div>
+      <div class="form-group mt-4 mb-4">
+        <label for="description" class="form-label">餐廳介紹 (introduction)</label>
+        <textarea
+          type="url"
+          class="form-control"
+          id="description"
+          name="description"
+          rows="5"
+          maxlength="300"
+          placeholder="請在300字以內介紹自己的餐廳 (Please type the words less than 300)"
+          required
+        ></textarea>
+      </div>
 
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary">新增 (Add)</button>
-      {{!-- reset方式也可以用在button身上 --}}
-      <input type="reset" class="btn btn-warning" value="清除重填 (Reset)"></input>
-      <a href="/" class="btn btn-secondary">返回 (Back)</a>
-    </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">新增 (Add)</button>
+        {{!-- reset方式也可以用在button身上 --}}
+        <input type="reset" class="btn btn-warning" value="清除重填 (Reset)"></input>
+        <a href="/" class="btn btn-secondary">返回 (Back)</a>
+      </div>
+      
+    </form>
     
-  </form>
-  
 
+  </div>
 </div>

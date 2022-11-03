@@ -69,24 +69,24 @@ app.post("/restaurants", (req, res) => {
     .catch((err) => console.log(err));
 
   //Method(2) 直接建立create
-  Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
+  // Restaurant.create(req.body)
+  //   .then(() => res.redirect("/"))
+  //   .catch((error) => console.log(error));
+});
+
+
+//todo set the route to the description of restaurant(params)
+app.get("/restaurants/:id", (req, res) => {
+  const restaurantId = req.params.id;
+  // console.log(restaurantId);
+  return Restaurant.findById(restaurantId)
+    .lean()
+    .then((restaurantDetail) => res.render("show", { restaurantDetail }))
     .catch((error) => console.log(error));
+
 });
 
 //!!以下尚未完成
-// //todo set the route to the description of restaurant(params)
-// app.get("/restaurants/:restaurant_id", (req, res) => {
-//   // console.log(req.params.restaurant_id);
-//   const restaurantInfo = restaurantList.find(
-//     (restaurant) => restaurant.id.toString() === req.params.restaurant_id
-//   );
-
-//   // console.log(restaurantInfo);
-
-//   res.render("show", { restaurantInfo });
-// });
-
 // //todo set the route for search bar
 // app.get("/search", (req, res) => {
 //   // console.log(req.query.keyword)
