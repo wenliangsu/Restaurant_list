@@ -1,6 +1,7 @@
 <h1 class="mb-1 restaurant-show-title">{{restaurantDetail.name}}</h1>
 <div class="container">
   <div class="row">
+
     <div class="col-12 col-md-10 mx-auto">
 
       <p class="mb-1">
@@ -43,6 +44,21 @@
         alt="{{restaurantDetail.name}}"
         style="max-width: 600px;"
       />
+
+      {{! !!修改刪除部分連結未完成 }}
+      <div class="d-flex justify-content-center mt-10 mb-5">
+        <a
+          href="./{{restaurantDetail._id}}/edit"
+          class="btn btn-primary me-2"
+        >修改 (Edit) <i class="fa-solid fa-pen-to-square"></i></a>
+
+        <button class="btn btn-danger me-2">
+          刪除 (delete)
+          <i class="fa-solid fa-ban"></i></button>
+        <a href="/" class="btn btn-secondary">
+          返回 (Back)
+          <i class="fa-solid fa-right-to-bracket"></i></a>
+      </div>
     </div>
   </div>
 </div>

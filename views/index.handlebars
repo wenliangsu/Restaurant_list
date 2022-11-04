@@ -46,12 +46,22 @@
                   {{this.category}}
                 </div>
 
-                <span
-                  class="badge rounded-pill text-bg-danger font-weight-normal"
-                >
-                  {{this.rating}}
-                  <i class="fa-solid fa-star"></i>
-                </span>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <span
+                      class="badge rounded-pill text-bg-danger font-weight-normal"
+                    >
+                      {{this.rating}}
+                      <i class="fa-solid fa-star fa-xs"></i>
+                    </span>
+                  </div>
+                  <div class="mt-2">
+                    {{!-- !!要加入route --}}
+                    <span>
+                      <i class="fa-regular fa-trash-can fa-lg"></i>
+                    </span>
+                  </div>
+                </div>
 
               </div>
             </div>

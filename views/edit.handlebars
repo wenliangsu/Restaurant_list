@@ -1,7 +1,7 @@
 <div class="new-restaurant-form">
-  <h2 class="text-center mt-4">新增餐廳</h2>
+  <h2 class="text-center mt-4">修改餐廳內容</h2>
   <div class="container">
-    <form action="/restaurants" method="POST">
+    <form action="/restaurants/{{restaurantContent._id}}/edit" method="POST">
       <div class="form-group mb-4 mt-6">
         <label for="name" class="form-label">中文店名 (Shop name in chinese)</label>
         <input
@@ -11,6 +11,7 @@
           name="name"
           maxlength="20"
           placeholder="請輸入中文店名..."
+          value="{{restaurantContent.name}}"
           required
         />
       </div>
@@ -23,6 +24,7 @@
           id="name_en"
           name="name_en"
           placeholder="Enter your shop name in english..."
+          value="{{restaurantContent.name_en}}"
           required
         />
       </div>
@@ -35,6 +37,7 @@
           id="category"
           name="category"
           placeholder="如無需要的選項，請自行填寫 (If you don't find out the option, please type yourself.)"
+          value="{{restaurantContent.category}}"
           required
         />
         <datalist id="category-options">
@@ -57,6 +60,7 @@
           id="image"
           name="image"
           placeholder="請輸入圖片網址 (shop picture) https://..."
+          value="{{restaurantContent.image}}"
           required
         />
       </div>
@@ -69,6 +73,7 @@
           id="location"
           name="location"
           placeholder="請輸入店家地址 (Please input the address)"
+          value="{{restaurantContent.location}}"
           required
         />
       </div>
@@ -82,6 +87,7 @@
           id="phone"
           name="phone"
           placeholder="請輸入電話號碼 (please type your phone)"
+          value="{{restaurantContent.phone}}"
           required
         />
       </div>
@@ -94,6 +100,7 @@
           id="google_map"
           name="google_map"
           placeholder="Google地圖網址 (Google map website)"
+          value="{{restaurantContent.google_map}}"
           required
         />
       </div>
@@ -109,6 +116,7 @@
           max="5"
           step="0.1"
           placeholder="請輸入google的評分 (Please input your google's rating)"
+          value="{{restaurantContent.rating}}"
           required
         />
       </div>
@@ -124,14 +132,15 @@
           maxlength="300"
           placeholder="請在300字以內介紹自己的餐廳 (Please type the words less than 300)"
           required
-        ></textarea>
+        >{{restaurantContent.description}}</textarea>
       </div>
 
+{{!-- note href ="../"表示回到上一層--}}
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">新增 (Add)</button>
-        {{!-- reset方式也可以用在button身上 --}}
-        <input type="reset" class="btn btn-warning" value="清除重填 (Reset)"></input>
-        <a href="/" class="btn btn-secondary">取消 (Cancel)</a>
+        <button type="submit" class="btn btn-primary">修改完成 (Finished)</button>
+        <a href="../{{restaurantContent._id}}" class="btn btn-secondary">取消 (Cancel)</a>
+        <button class="btn btn-danger">刪除 (Delete)</button>
+        
       </div>
       
     </form>

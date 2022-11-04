@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-//todo create the new restaurant information
+//todo create the new restaurant information(Creat)
 app.get("/restaurants/new", (req, res) => {
   res.render("new");
 });
@@ -62,7 +62,7 @@ app.post("/restaurants", (req, res) => {
   // console.log(newData)
   //note 因傳進來的為一個物件，將其用展開運算子後，一個一個帶入
   const newInfo = new Restaurant({ ...newData });
-
+  console.log(newInfo)
   return newInfo
     .save()
     .then(() => res.redirect("/"))
@@ -74,8 +74,7 @@ app.post("/restaurants", (req, res) => {
   //   .catch((error) => console.log(error));
 });
 
-
-//todo set the route to the description of restaurant(params)
+//todo the description of restaurant(Read)
 app.get("/restaurants/:id", (req, res) => {
   const restaurantId = req.params.id;
   // console.log(restaurantId);
@@ -83,7 +82,31 @@ app.get("/restaurants/:id", (req, res) => {
     .lean()
     .then((restaurantDetail) => res.render("show", { restaurantDetail }))
     .catch((error) => console.log(error));
+});
 
+//todo  edit the restaurant Info (Update)
+app.get("/restaurants/:id/edit", (req, res) => {
+  const restaurantId = req.params.id;
+  // console.log(restaurantId);
+  return Restaurant.findById(restaurantId)
+    .lean()
+    .then((restaurantContent) => res.render("edit", { restaurantContent }))
+    .catch((error) => console.log(error));
+});
+
+//note 傳進來的req.body並未帶有_id，所以要在透過Object的方式將原先的物件內容整個替換掉新的並保留_id才可以讓mongoose替換新的
+app.post("/restaurants/:id/edit", (req, res) => {
+  const restaurantId = req.params.id;
+  // console.log(req.body)
+  return Restaurant.findById(restaurantId)
+    .then( restaurantEditedInfo => {
+      for (const [key, value] of Object.entries(req.body)) {
+          restaurantEditedInfo[key] = value;
+      }
+      return restaurantEditedInfo.save();
+    })
+    .then(() => res.redirect(`/restaurants/${restaurantId}`))
+    .catch((error) => console.log(error));
 });
 
 //!!以下尚未完成
