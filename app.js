@@ -118,8 +118,37 @@ app.post("/restaurants/:id/delete", (req, res) => {
     .then(() => res.redirect("/"));
 });
 
-//!!以下尚未完成
-// //todo set the route for search bar
+//todo set the route for search bar
+app.get("/search", (req, res) => {
+  const keywordByUser = req.query.keyword;
+  const keyword = req.query.keyword.toLowerCase().trim();
+
+  Restaurant.find({})
+    .lean()
+    .then((restaurantsData) => {
+      const filteredRestaurant = restaurantsData.filter((restaurants) => {
+        return (
+          restaurants.name.toLowerCase().includes(keyword) ||
+          restaurants.category.toLowerCase().includes(keyword)
+        );
+      });
+      if (!keywordByUser) {
+        //未輸入關鍵字
+        //note res.redirect可以返回指定的url
+        res.redirect("/");
+      } else if (filteredRestaurant.length === 0) {
+        //未比對到搜尋結果
+        res.render("search");
+      } else {
+        //比對到後的結果
+        res.render("index", {
+          restaurantList: filteredRestaurant,
+          keyword: keywordByUser,
+        });
+      }
+    })
+    .catch((error) => console.log(error));
+});
 // app.get("/search", (req, res) => {
 //   // console.log(req.query.keyword)
 //   //note 為了讓使用者知道自己搜尋的關鍵字為何，故多宣告一個變數可放在handlebars的input value裡面
