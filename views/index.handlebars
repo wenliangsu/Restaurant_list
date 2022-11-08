@@ -31,41 +31,78 @@
     <div class="col-md-10 col-12 mx-auto">
       <div class="row row-cols-sm-3">
         {{#each restaurantList}}
-          <a href="/restaurants/{{this._id}}" class="text-secondary">
-            <div class="card mb-3">
+          {{!-- <a href="/restaurants/{{this._id}}" class="text-secondary"> --}}
+          <div class="card mb-3">
+            <a href="./restaurants/{{this._id}}">
               <img
                 class="card-img-top"
                 src="{{this.image}}"
                 alt="{{this.name}}"
               />
-              <div class="card-body p-3">
-                <h6 class="card-title mb-1">{{this.name}}</h6>
+            </a>
 
-                <div class="restaurant-category mb-1">
-                  <i class="fas fa-utensils pr-2"></i>
-                  {{this.category}}
-                </div>
+            <div class="card-body p-3">
+              <h6 class="card-title mb-1">{{this.name}}</h6>
 
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <span
-                      class="badge rounded-pill text-bg-danger font-weight-normal"
-                    >
-                      {{this.rating}}
-                      <i class="fa-solid fa-star fa-xs"></i>
-                    </span>
-                  </div>
-                  <div class="mt-2">
-                    {{!-- !!要加入route --}}
-                    <span>
-                      <i class="fa-regular fa-trash-can fa-lg"></i>
-                    </span>
-                  </div>
-                </div>
-
+              <div class="restaurant-category mb-1">
+                <i class="fas fa-utensils pr-2"></i>
+                {{this.category}}
               </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="rating">
+                  <span
+                    class="badge rounded-pill text-bg-danger font-weight-normal"
+                  >
+                    {{this.rating}}
+                    <i class="fa-solid fa-star fa-xs"></i>
+                  </span>
+                </div>
+
+                <div class="edit-option">
+                  <form
+                    action="./restaurants/{{this._id}}/edit"
+                    method="GET"
+                    style="display:inline ;"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-outline-primary align-top"
+                    >
+                      <i class="fa-solid fa-pen-to-square"></i></button>
+                  </form>
+                  <form
+                    action="./restaurants/{{this._id}}"
+                    method="GET"
+                    style="display:inline ;"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-outline-info align-top"
+                    >
+                      <i class="fa-solid fa-circle-info"></i></button>
+                  </form>
+                  <form
+                    action="./restaurants/{{this._id}}/delete"
+                    method="POST"
+                    style="display:inline ;"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-outline-secondary align-top"
+                      id="delete-btn"
+                      name="delete-btn"
+                      onclick="return confirm(`你確認要刪除{{this.name}}嗎? (Are you sure to delete {{this.name}})?`)"
+                    >
+                      <i class="fa-regular fa-trash-can"></i></button>
+
+                  </form>
+                </div>
+              </div>
+
             </div>
-          </a>
+          </div>
+          {{! </a> }}
         {{/each}}
       </div>
     </div>

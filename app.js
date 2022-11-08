@@ -62,7 +62,7 @@ app.post("/restaurants", (req, res) => {
   // console.log(newData)
   //note 因傳進來的為一個物件，將其用展開運算子後，一個一個帶入
   const newInfo = new Restaurant({ ...newData });
-  console.log(newInfo)
+  console.log(newInfo);
   return newInfo
     .save()
     .then(() => res.redirect("/"))
@@ -99,14 +99,23 @@ app.post("/restaurants/:id/edit", (req, res) => {
   const restaurantId = req.params.id;
   // console.log(req.body)
   return Restaurant.findById(restaurantId)
-    .then( restaurantEditedInfo => {
+    .then((restaurantEditedInfo) => {
       for (const [key, value] of Object.entries(req.body)) {
-          restaurantEditedInfo[key] = value;
+        restaurantEditedInfo[key] = value;
       }
       return restaurantEditedInfo.save();
     })
     .then(() => res.redirect(`/restaurants/${restaurantId}`))
     .catch((error) => console.log(error));
+});
+
+//todo delete the restaurant information
+app.post("/restaurants/:id/delete", (req, res) => {
+  const restaurantId = req.params.id;
+  // console.log(req.body)
+  return Restaurant.findById(restaurantId)
+    .then((restaurantData) => restaurantData.remove())
+    .then(() => res.redirect("/"));
 });
 
 //!!以下尚未完成

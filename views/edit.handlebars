@@ -135,16 +135,23 @@
         >{{restaurantContent.description}}</textarea>
       </div>
 
-{{!-- note href ="../"表示回到上一層--}}
+      {{! note href ="../"表示回到上一層}}
       <div class="text-center">
         <button type="submit" class="btn btn-primary">修改完成 (Finished)</button>
-        <a href="../{{restaurantContent._id}}" class="btn btn-secondary">取消 (Cancel)</a>
-        <button class="btn btn-danger">刪除 (Delete)</button>
-        
+        <a href="../{{restaurantContent._id}}" class="btn btn-secondary">取消
+          (Cancel)</a>
+
+
+        {{!-- note 在最上面有個方法POST，若是加了delete也是用POST，則會卡到，變成修改的模式，用<a>則方法是為GET  (待解決) ref:https://stackoverflow.com/questions/71431755/how-to-use-more-than-one-post-request-in-same-route--}}
+        {{!-- <form action="/" method="POST">
+          <button class="btn btn-danger">
+            刪除 (delete)
+            <i class="fa-solid fa-ban"></i></button>
+        </form> --}}
+
       </div>
-      
+
     </form>
-    
 
   </div>
 </div>
