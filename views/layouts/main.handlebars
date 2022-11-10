@@ -45,16 +45,18 @@
     {{! Javascript }}
     <script src="/javascripts/popper.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
-    {{!-- !!待解決 刪除部分另一種方法->採用onclick來呼叫這邊的function並回轉值到HTML--}}
-    {{!-- <script>
+
+    {{!-- 刪除部分另一種方法->採用onclick來呼叫這邊的function並回轉值到HTML--}}
+    <script>
       function check(name) {
         if (confirm(`你確定要刪除${name}嗎`)) {
           document.getElementById('delete-btn').value = 'true'
-          console.log(document.getElementById('delete-btn')).value
+          console.log(document.getElementById('delete-btn').value)
         } else {
           document.getElementById('delete-btn').value = 'false'
+           event.preventDefault()
         }
       }
-    </script> --}}
+    </script>
   </body>
 </html>

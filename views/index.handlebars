@@ -14,9 +14,9 @@
 
           <div class="input-group">
             <form action="/" method="GET" id="sort-form">
-              <select class="form-select text-center" name="sort" id="sort" onchange="sort-form.submit()">
-                <option value="a-z"{{#if sort.a-z}}selected{{/if}}>A->Z</option>
-                <option value="z-a"{{#if sort.z-a}}selected{{/if}}>Z->A</option>
+              <select class="form-select text-center" name="sort" id="sort">
+                <option value="a-z" {{#if sort.a-z}}selected{{/if}}>A->Z</option>
+                <option value="z-a" {{#if sort.z-a}}selected{{/if}}>Z->A</option>
                 <option value="category" {{#if sort.category}}selected{{/if}}>類別</option>
                 <option value="location" {{#if sort.location}}selected{{/if}}>地址</option>
               </select>
@@ -67,11 +67,11 @@
                     <button type="submit" class="btn btn-outline-info align-top">
                       <i class="fa-solid fa-circle-info"></i></button>
                   </form>
-                  <form action="./restaurants/{{this._id}}/delete" method="POST" style="display:inline ;">
+                  <form action="./restaurants/{{this._id}}?_method=DELETE" method="POST" style="display:inline ;">
+                    {{!-- method 可以直接使用onclick="return confirm(`XXXX`)"，這樣可以不用掛script在main.hbs --}}
                     <button type="submit" class="btn btn-outline-secondary align-top" id="delete-btn" name="delete-btn"
-                      onclick="return confirm(`你確認要刪除{{this.name}}嗎? (Are you sure to delete {{this.name}})?`)">
+                      onclick="check(`{{this.name}}`)">
                       <i class="fa-regular fa-trash-can"></i></button>
-
                   </form>
                 </div>
               </div>

@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 //呼叫資料結構
 const restaurantData = require("../restaurant");
 //互叫原始餐廳資料
-const restaurantOriginalList = require("../../restaurant.json").results;
-
+const restaurantOriginalList = require("./restaurant.json").results;
 
 //Section connect the database
 if (process.env.NODE_ENV != "production") {
@@ -23,7 +22,8 @@ db.on("error", () => {
 
 db.once("open", () => {
   console.log("Importing the original data...");
-  restaurantData.create(restaurantOriginalList)
+  restaurantData
+    .create(restaurantOriginalList)
     .then(() => {
       console.log("All is  done!");
     })

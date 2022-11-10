@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
+const methodOverride = require("method-override");
 const Restaurant = require("./models/restaurant");
 
 //server connection port
@@ -35,31 +36,36 @@ db.once("open", () => {
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-//Section Static file and body-parser
+//Section Static file, body-parser and method-override
+//bootstrap, popper
 app.use(express.static("public"));
 
+//body-parser處理
 app.use(express.urlencoded({ extended: true }));
+
+//路由的前置處理
+app.use(methodOverride("_method"));
 
 //Section Routes setting
 //todo read all the restaurant data
 //!!Sort function未完成(無法取到req.query.sort)
 app.get("/", (req, res) => {
-  const sortValue = req.query.sort;
-  console.log(sortValue);
-  // 設立各個類型排序方式
-  const sortOption = {
-    "a-z": { name: "asc" },
-    "z-a": { name: "desc" },
-    category: { category: "asc" },
-    location: { location: "asc" },
-  };
+  // const sortValue = req.query.sort;
+  // console.log(sortValue);
+  // // 設立各個類型排序方式
+  // const sortOption = {
+  //   "a-z": { name: "asc" },
+  //   "z-a": { name: "desc" },
+  //   category: { category: "asc" },
+  //   location: { location: "asc" },
+  // };
 
-  const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+  // const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
 
   Restaurant.find()
     .lean()
-    .sort(sortOption[sortValue])
-    .then((restaurantList) => res.render("index", { restaurantList, sort }))
+    // .sort(sortOption[sortValue])
+    .then((restaurantList) => res.render("index", { restaurantList }))
     .catch((error) => console.log(error));
 });
 
@@ -105,7 +111,7 @@ app.get("/restaurants/:id/edit", (req, res) => {
 });
 
 //note 傳進來的req.body並未帶有_id，所以要在透過Object的方式將原先的物件內容整個替換掉新的並保留_id才可以讓mongoose替換新的
-app.post("/restaurants/:id/edit", (req, res) => {
+app.put("/restaurants/:id", (req, res) => {
   const restaurantId = req.params.id;
   return Restaurant.findById(restaurantId)
     .then((restaurantEditedInfo) => {
@@ -118,9 +124,10 @@ app.post("/restaurants/:id/edit", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-//todo delete the restaurant information
-app.post("/restaurants/:id/delete", (req, res) => {
+//todo delete the restaurant information (Delete)
+app.delete("/restaurants/:id", (req, res) => {
   const restaurantId = req.params.id;
+
   return Restaurant.findById(restaurantId)
     .then((restaurantData) => restaurantData.remove())
     .then(() => res.redirect("/"));

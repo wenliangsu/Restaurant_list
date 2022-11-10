@@ -1,7 +1,7 @@
 <div class="new-restaurant-form">
   <h2 class="text-center mt-4">修改餐廳內容</h2>
   <div class="container">
-    <form action="/restaurants/{{restaurantContent._id}}/edit" method="POST">
+    <form action="/restaurants/{{restaurantContent._id}}?_method=PUT" method="POST">
       <div class="form-group mb-4 mt-6">
         <label for="name" class="form-label">中文店名 (Shop name in chinese)</label>
         <input

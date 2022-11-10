@@ -17,11 +17,7 @@
           <i class="fas fa-map-marker-alt pr-2"></i>
           地址：
         </span>
-        <a
-          href="{{restaurantDetail.google_map}}"
-          class="text-secondary"
-          target="_blank"
-        >{{restaurantDetail.location}}
+        <a href="{{restaurantDetail.google_map}}" class="text-secondary" target="_blank">{{restaurantDetail.location}}
           <i class="fas fa-location-arrow pr-2 fa-xs"></i>
         </a>
       </p>
@@ -38,12 +34,8 @@
         {{restaurantDetail.description}}
       </p>
 
-      <img
-        class="rounded mx-auto d-block mb-4 w-100"
-        src="{{restaurantDetail.image}}"
-        alt="{{restaurantDetail.name}}"
-        style="max-width: 600px;"
-      />
+      <img class="rounded mx-auto d-block mb-4 w-100" src="{{restaurantDetail.image}}" alt="{{restaurantDetail.name}}"
+        style="max-width: 600px;" />
 
       {{! !!修改刪除部分連結未完成 }}
       <div class="d-flex justify-content-center mt-10 mb-5">
@@ -59,27 +51,18 @@
             <i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
 
-        <form action="./{{restaurantDetail._id}}/delete" method="POST">
-          <button
-            type="submit"
-            class="btn btn-danger align-top"
-            id="delete-btn"
-            name="delete-btn"
-            onclick="return confirm(`你確認要刪除{{this.name}}嗎? (Are you sure to delete {{this.name}})?`)"
-          >
+        <form action="./{{restaurantDetail._id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger align-top" id="delete-btn" name="delete-btn"
+            onclick="return confirm(`你確認要刪除{{this.name}}嗎? (Are you sure to delete {{this.name}})?`)">
             刪除 (delete)
             <i class="fa-solid fa-ban"></i></button>
         </form>
 
-        {{!-- <a
-          href="./{{restaurantDetail._id}}/edit"
-          class="btn btn-primary me-2"
-        >修改 (Edit) <i class="fa-solid fa-pen-to-square"></i></a> --}}
+        {{!-- <a href="./{{restaurantDetail._id}}/edit" class="btn btn-primary me-2">修改 (Edit) <i
+            class="fa-solid fa-pen-to-square"></i></a> --}}
 
-        {{!-- <a
-          href="./{{restaurantDetail._id}}/edit"
-          class="btn btn-danger me-2"
-        >刪除 (Delete) <i class="fa-solid fa-ban"></i></a> --}}
+        {{!-- <a href="./{{restaurantDetail._id}}/edit" class="btn btn-danger me-2">刪除 (Delete) <i
+            class="fa-solid fa-ban"></i></a> --}}
 
         {{! <a href="/" class="btn btn-secondary">
           返回 (Back)
