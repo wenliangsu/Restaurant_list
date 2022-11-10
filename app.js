@@ -4,8 +4,6 @@ const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
 const Restaurant = require("./models/restaurant");
-//invoke the list of data
-// const restaurantList = require("./restaurant.json").results;
 
 //server connection port
 const port = 3000;
@@ -44,10 +42,24 @@ app.use(express.urlencoded({ extended: true }));
 
 //Section Routes setting
 //todo read all the restaurant data
+//!!Sort function未完成(無法取到req.query.sort)
 app.get("/", (req, res) => {
+  const sortValue = req.query.sort;
+  console.log(sortValue);
+  // 設立各個類型排序方式
+  const sortOption = {
+    "a-z": { name: "asc" },
+    "z-a": { name: "desc" },
+    category: { category: "asc" },
+    location: { location: "asc" },
+  };
+
+  const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+
   Restaurant.find()
     .lean()
-    .then((restaurantList) => res.render("index", { restaurantList }))
+    .sort(sortOption[sortValue])
+    .then((restaurantList) => res.render("index", { restaurantList, sort }))
     .catch((error) => console.log(error));
 });
 
@@ -77,7 +89,6 @@ app.post("/restaurants", (req, res) => {
 //todo the description of restaurant(Read)
 app.get("/restaurants/:id", (req, res) => {
   const restaurantId = req.params.id;
-  // console.log(restaurantId);
   return Restaurant.findById(restaurantId)
     .lean()
     .then((restaurantDetail) => res.render("show", { restaurantDetail }))
@@ -87,7 +98,6 @@ app.get("/restaurants/:id", (req, res) => {
 //todo  edit the restaurant Info (Update)
 app.get("/restaurants/:id/edit", (req, res) => {
   const restaurantId = req.params.id;
-  // console.log(restaurantId);
   return Restaurant.findById(restaurantId)
     .lean()
     .then((restaurantContent) => res.render("edit", { restaurantContent }))
@@ -97,7 +107,6 @@ app.get("/restaurants/:id/edit", (req, res) => {
 //note 傳進來的req.body並未帶有_id，所以要在透過Object的方式將原先的物件內容整個替換掉新的並保留_id才可以讓mongoose替換新的
 app.post("/restaurants/:id/edit", (req, res) => {
   const restaurantId = req.params.id;
-  // console.log(req.body)
   return Restaurant.findById(restaurantId)
     .then((restaurantEditedInfo) => {
       for (const [key, value] of Object.entries(req.body)) {
@@ -112,7 +121,6 @@ app.post("/restaurants/:id/edit", (req, res) => {
 //todo delete the restaurant information
 app.post("/restaurants/:id/delete", (req, res) => {
   const restaurantId = req.params.id;
-  // console.log(req.body)
   return Restaurant.findById(restaurantId)
     .then((restaurantData) => restaurantData.remove())
     .then(() => res.redirect("/"));
@@ -120,6 +128,7 @@ app.post("/restaurants/:id/delete", (req, res) => {
 
 //todo set the route for search bar
 app.get("/search", (req, res) => {
+  //note 為了讓使用者知道自己搜尋的關鍵字為何，故多宣告一個變數可放在handlebars的input value裡面
   const keywordByUser = req.query.keyword;
   const keyword = req.query.keyword.toLowerCase().trim();
 
@@ -138,7 +147,7 @@ app.get("/search", (req, res) => {
         res.redirect("/");
       } else if (filteredRestaurant.length === 0) {
         //未比對到搜尋結果
-        res.render("search");
+        res.render("searchNoFound");
       } else {
         //比對到後的結果
         res.render("index", {
@@ -149,35 +158,6 @@ app.get("/search", (req, res) => {
     })
     .catch((error) => console.log(error));
 });
-// app.get("/search", (req, res) => {
-//   // console.log(req.query.keyword)
-//   //note 為了讓使用者知道自己搜尋的關鍵字為何，故多宣告一個變數可放在handlebars的input value裡面
-//   const keywordByUser = req.query.keyword;
-//   const keyword = req.query.keyword.toLowerCase().trim();
-//   const filteredRestaurant = restaurantList.filter((restaurant) => {
-//     return (
-//       restaurant.name.toLowerCase().includes(keyword) ||
-//       restaurant.category.toLowerCase().includes(keyword)
-//     );
-//   });
-
-//   // console.log(filteredRestaurant)
-
-//   if (!keywordByUser) {
-//     //未輸入關鍵字
-//     //note res.redirect可以返回指定的url
-//     res.redirect("/");
-//   } else if (filteredRestaurant.length === 0) {
-//     //未比對到搜尋結果
-//     res.render("search");
-//   } else {
-//     //比對到後的結果
-//     res.render("index", {
-//       restaurantList: filteredRestaurant,
-//       keyword: keywordByUser,
-//     });
-//   }
-// });
 
 //Section Express server start and listen
 app.listen(port, () => {

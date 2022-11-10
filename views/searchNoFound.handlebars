@@ -1,0 +1,25 @@
+<div class="container search-bar">
+  <div class="search-bar-outer">
+    <div class="search-bar-inner">
+      <h4 class="mb-2">尋找餐廳：</h4>
+      <form action="/search">
+        <div class="d-flex flex-row align-items-center gap-2">
+          <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+              value="{{keyword}}" aria-describedby="search-button" />
+            <button class="btn btn-major" type="submit" id="search-button">
+              <i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto d-flex justify-content-center mt-5 ">
+      <h1>Opps!! 並未找到您要的結果，請再重新輸入。</h1>
+    </div>
+  </div>
+</div>
