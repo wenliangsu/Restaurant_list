@@ -5,24 +5,25 @@ const Restaurant = require("../../models/restaurant");
 
 //Section Routes setting
 //todo read all the restaurant data
-//!!Sort function未完成(無法取到req.query.sort)
 router.get("/", (req, res) => {
-  // const sortValue = req.query.sort;
-  // console.log(sortValue);
-  // // 設立各個類型排序方式
-  // const sortOption = {
-  //   "a-z": { name: "asc" },
-  //   "z-a": { name: "desc" },
-  //   category: { category: "asc" },
-  //   location: { location: "asc" },
-  // };
+  const sortValue = req.query.sort;
+  // console.log(sortValue)
+  // 設立各個類型排序方式
+  const sortOption = {
+    "a-z": { name: "asc" },
+    "z-a": { name: "desc" },
+    category: { category: "asc" },
+    location: { location: "asc" },
+  };
 
-  // const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+  //note 透過triple-operator來讓初始畫面為正排序
+  const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+
 
   Restaurant.find()
     .lean()
-    // .sort(sortOption[sortValue])
-    .then((restaurantList) => res.render("index", { restaurantList }))
+    .sort(sortOption[sortValue])
+    .then((restaurantList) => res.render("index", { restaurantList, sort }))
     .catch((error) => console.log(error));
 });
 
