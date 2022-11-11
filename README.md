@@ -11,6 +11,7 @@ Ths application is about the restaurant list that you can add new one and search
 - Point the address and will show the place in google map.
 - Can search the restaurant what you like.
 - Can add the new restaurant, edit or delete
+- Can sort your restaurant list that can find what you want quickly
 
 ## Package environment
 
@@ -18,6 +19,7 @@ Ths application is about the restaurant list that you can add new one and search
 - Express-handleBars @3.0.0
 - Node.js
 - Mongoose @5.9.13
+- Method-override@3.0.0
 
 ## How to use
 
