@@ -17,7 +17,10 @@ router.post("/", (req, res) => {
   return newInfo
     .save()
     .then(() => res.redirect("/"))
-    .catch((err) => console.log(err));
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { error: error.message });
+    });
 
   //Method(2) 直接建立create
   // Restaurant.create(req.body)
@@ -31,7 +34,10 @@ router.get("/:id", (req, res) => {
   return Restaurant.findById(restaurantId)
     .lean()
     .then((restaurantDetail) => res.render("show", { restaurantDetail }))
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { error: error.message });
+    });
 });
 
 //todo  edit the restaurant Info (Update)
@@ -40,7 +46,10 @@ router.get("/:id/edit", (req, res) => {
   return Restaurant.findById(restaurantId)
     .lean()
     .then((restaurantContent) => res.render("edit", { restaurantContent }))
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { error: error.message });
+    });
 });
 
 //note 傳進來的req.body並未帶有_id，所以要在透過Object的方式將原先的物件內容整個替換掉新的並保留_id才可以讓mongoose替換新的
@@ -54,7 +63,10 @@ router.put("/:id", (req, res) => {
       return restaurantEditedInfo.save();
     })
     .then(() => res.redirect(`/restaurants/${restaurantId}`))
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { error: error.message });
+    });
 });
 
 //todo delete the restaurant information (Delete)
