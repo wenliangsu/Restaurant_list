@@ -35,7 +35,7 @@ const Restaurant = require("../../models/restaurant");
 //   //note 為了讓使用者知道自己搜尋的關鍵字為何，故多宣告一個變數可放在handlebars的input value裡面
 //   const keywordByUser = req.query.keyword;
 //   const keyword = req.query.keyword.toLowerCase().trim();
-
+// console.log(keyword)
 //   Restaurant.find({})
 //     .lean()
 //     .then((restaurantsData) => {
@@ -67,65 +67,113 @@ const Restaurant = require("../../models/restaurant");
 // });
 
 //Method (2) 將search and sort整合一起(注意hbs裡面需要更動的路徑，像是noFound and index)
+//!!思考要怎麼做到同時排序又可以搜尋
 
 //todo search and sort for restaurant
+// router.get("/", (req, res) => {
+//   const reqValue = req.query;
+
+//   if (reqValue.keyword) {
+//     const keywordByUser = reqValue.keyword;
+//     const keyword = reqValue.keyword.toLowerCase().trim();
+//     console.log(reqValue)
+//     Restaurant.find({})
+//       .lean()
+//       .sort()
+//       .then((restaurantsData) => {
+//         const filteredRestaurant = restaurantsData.filter((restaurants) => {
+//           return (
+//             restaurants.name.toLowerCase().includes(keyword) ||
+//             restaurants.category.toLowerCase().includes(keyword)
+//           );
+//         });
+//         if (!keywordByUser) {
+//           //未輸入關鍵字
+//           //note res.redirect可以返回指定的url
+//           res.redirect("/");
+//         } else if (filteredRestaurant.length === 0) {
+//           //未比對到搜尋結果
+//           res.render("searchNoFound");
+//         } else {
+//           //比對到後的結果
+//           res.render("index", {
+//             restaurantList: filteredRestaurant,
+//             keyword: keywordByUser,
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         res.render("error", { error });
+//       });
+//   } else {
+//     const sortValue = reqValue.sort;
+//     console.log(reqValue);
+//     // 設立各個類型排序方式
+//     const sortOption = {
+//       "a-z": { name: "asc" },
+//       "z-a": { name: "desc" },
+//       category: { category: "asc" },
+//       location: { location: "asc" },
+//     };
+
+//     //note 透過triple-operator來讓初始畫面為正排序
+//     const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+
+//     Restaurant.find()
+//       .lean()
+//       .sort(sortOption[sortValue])
+//       .then((restaurantList) => res.render("index", { restaurantList, sort }))
+//       .catch((error) => {
+//         console.log(error);
+//         res.render("error", { error });
+//       });
+//   }
+// });
+
+//Method (3) refactor the feature
 router.get("/", (req, res) => {
-  const reqValue = req.query;
+  const sortValue = req.query.sort;
+  const sortOption = {
+    "a-z": { name: "asc" },
+    "z-a": { name: "desc" },
+    category: { category: "asc" },
+    location: { location: "asc" },
+  };
+  const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
 
-  if (reqValue.keyword) {
-    const keywordByUser = reqValue.keyword;
-    const keyword = reqValue.keyword.toLowerCase().trim();
+  const keywordByUser = req.query.keyword;
 
-    Restaurant.find({})
-      .lean()
-      .then((restaurantsData) => {
-        const filteredRestaurant = restaurantsData.filter((restaurants) => {
-          return (
-            restaurants.name.toLowerCase().includes(keyword) ||
-            restaurants.category.toLowerCase().includes(keyword)
-          );
+  Restaurant.find()
+    .lean()
+    .sort(sortOption[sortValue])
+    .then((restaurantList) => {
+      const filteredRestaurant = restaurantList.filter((restaurants) => {
+        return (
+          restaurants.name.toLowerCase().includes(keywordByUser) ||
+          restaurants.category.toLowerCase().includes(keywordByUser)
+        );
+      });
+      if (!keywordByUser) {
+        //未輸入關鍵字
+        res.render("index", { restaurantList, sort });
+      } else if (filteredRestaurant.length === 0) {
+        //未比對到搜尋結果        console.log(2)
+        res.render("searchNoFound");
+      } else {
+        //比對到後的結果
+        res.render("index", {
+          restaurantList: filteredRestaurant,
+          keyword: keywordByUser,
+          sort,
         });
-        if (!keywordByUser) {
-          //未輸入關鍵字
-          //note res.redirect可以返回指定的url
-          res.redirect("/");
-        } else if (filteredRestaurant.length === 0) {
-          //未比對到搜尋結果
-          res.render("searchNoFound");
-        } else {
-          //比對到後的結果
-          res.render("index", {
-            restaurantList: filteredRestaurant,
-            keyword: keywordByUser,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        res.render("error", { error });
-      });
-  } else {
-    const sortValue = reqValue.sort;
-    // console.log(sortValue)
-    // 設立各個類型排序方式
-    const sortOption = {
-      "a-z": { name: "asc" },
-      "z-a": { name: "desc" },
-      category: { category: "asc" },
-      location: { location: "asc" },
-    };
+      }
+    })
 
-    //note 透過triple-operator來讓初始畫面為正排序
-    const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
-    Restaurant.find()
-      .lean()
-      .sort(sortOption[sortValue])
-      .then((restaurantList) => res.render("index", { restaurantList, sort }))
-      .catch((error) => {
-        console.log(error);
-        res.render("error", { error });
-      });
-  }
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { error });
+    });
 });
 
 module.exports = router;
