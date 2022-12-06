@@ -67,7 +67,6 @@ const Restaurant = require("../../models/restaurant");
 // });
 
 //Method (2) 將search and sort整合一起(注意hbs裡面需要更動的路徑，像是noFound and index)
-//!!思考要怎麼做到同時排序又可以搜尋
 
 //todo search and sort for restaurant
 // router.get("/", (req, res) => {
@@ -131,7 +130,52 @@ const Restaurant = require("../../models/restaurant");
 //   }
 // });
 
-//Method (3) refactor the feature
+// //Method (3) refactor the feature from Method (2)
+// router.get("/", (req, res) => {
+//   const sortValue = req.query.sort;
+//   const sortOption = {
+//     "a-z": { name: "asc" },
+//     "z-a": { name: "desc" },
+//     category: { category: "asc" },
+//     location: { location: "asc" },
+//   };
+//   const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+
+//   const keywordByUser = req.query.keyword;
+
+//   Restaurant.find()
+//     .lean()
+//     .sort(sortOption[sortValue])
+//     .then((restaurantList) => {
+//       const filteredRestaurant = restaurantList.filter((restaurants) => {
+//         return (
+//           restaurants.name.toLowerCase().includes(keywordByUser) ||
+//           restaurants.category.toLowerCase().includes(keywordByUser)
+//         );
+//       });
+//       if (!keywordByUser) {
+//         //未輸入關鍵字
+//         res.render("index", { restaurantList, sort });
+//       } else if (filteredRestaurant.length === 0) {
+//         //未比對到搜尋結果        console.log(2)
+//         res.render("searchNoFound");
+//       } else {
+//         //比對到後的結果
+//         res.render("index", {
+//           restaurantList: filteredRestaurant,
+//           keyword: keywordByUser,
+//           sort,
+//         });
+//       }
+//     })
+
+//     .catch((error) => {
+//       console.log(error);
+//       res.render("error", { error });
+//     });
+// });
+
+//Method (4) operate the sort and search from mongoDB database
 router.get("/", (req, res) => {
   const sortValue = req.query.sort;
   const sortOption = {
@@ -142,32 +186,26 @@ router.get("/", (req, res) => {
   };
   const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
 
-  const keywordByUser = req.query.keyword;
+  const keywordByUser = req.query.keyword ? req.query.keyword : ""
 
-  Restaurant.find()
+  Restaurant.find({
+    //note $or 來自官方文件，可以使用多種regular expression，可以搭配sort()同時使用。
+    // note $regex為採用regular expression 用於資料搜尋，而$options可以設定＄regex的條件
+    // note https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+    $or: [
+      { name: { $regex: keywordByUser, $options: "$i" } },
+      { name_en: { $regex: keywordByUser, $options: "$i" } },
+      { category: { $regex: keywordByUser, $options: "$i" } },
+    ],
+  })
     .lean()
     .sort(sortOption[sortValue])
     .then((restaurantList) => {
-      const filteredRestaurant = restaurantList.filter((restaurants) => {
-        return (
-          restaurants.name.toLowerCase().includes(keywordByUser) ||
-          restaurants.category.toLowerCase().includes(keywordByUser)
-        );
+      res.render("index", {
+        restaurantList,
+        keyword: keywordByUser,
+        sort,
       });
-      if (!keywordByUser) {
-        //未輸入關鍵字
-        res.render("index", { restaurantList, sort });
-      } else if (filteredRestaurant.length === 0) {
-        //未比對到搜尋結果        console.log(2)
-        res.render("searchNoFound");
-      } else {
-        //比對到後的結果
-        res.render("index", {
-          restaurantList: filteredRestaurant,
-          keyword: keywordByUser,
-          sort,
-        });
-      }
     })
 
     .catch((error) => {
@@ -175,5 +213,9 @@ router.get("/", (req, res) => {
       res.render("error", { error });
     });
 });
+
+
+
+
 
 module.exports = router;
