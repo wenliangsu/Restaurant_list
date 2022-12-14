@@ -1,35 +1,33 @@
 //Section Set the variable
 //for server, framework, kit and database｀
-const express = require("express");
-const exphbs = require("express-handlebars");
-const methodOverride = require("method-override");
+const express = require('express');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
 // 引入路由器
-const routes = require("./routes");
+const routes = require('./routes');
 const app = express();
 //server connection port
 const port = 3000;
-
 
 //Section Database setting and connection
 //!!連線指令已搬移至config中
 
 //Connect the database
-require('./config/mongoose')
-
+require('./config/mongoose');
 
 //Section Set template engine
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
 //Section Static file, body-parser and method-override
 //bootstrap, popper
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 //body-parser處理
 app.use(express.urlencoded({ extended: true }));
 
 //路由的前置處理
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 
 //將request導入路由器
 //note 要先導入method-override 才可以導入route，因為由上而下的執行關係

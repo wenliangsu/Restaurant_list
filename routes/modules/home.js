@@ -1,7 +1,7 @@
 //Section Set the variable
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Restaurant = require("../../models/restaurant");
+const Restaurant = require('../../models/restaurant');
 
 //Section Routes setting
 //Method (1) 將search and sort 功能分開
@@ -176,32 +176,32 @@ const Restaurant = require("../../models/restaurant");
 // });
 
 //Method (4) operate the sort and search from mongoDB database
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   const sortValue = req.query.sort;
   const sortOption = {
-    "a-z": { name: "asc" },
-    "z-a": { name: "desc" },
-    category: { category: "asc" },
-    location: { location: "asc" },
+    'a-z': { name: 'asc' },
+    'z-a': { name: 'desc' },
+    category: { category: 'asc' },
+    location: { location: 'asc' },
   };
-  const sort = sortValue ? { [sortValue]: true } : { "a-z": true };
+  const sort = sortValue ? { [sortValue]: true } : { 'a-z': true };
 
-  const keywordByUser = req.query.keyword ? req.query.keyword : ""
+  const keywordByUser = req.query.keyword ? req.query.keyword : '';
 
   Restaurant.find({
     //note $or 來自官方文件，可以使用多種regular expression，可以搭配sort()同時使用。
     // note $regex為採用regular expression 用於資料搜尋，而$options可以設定＄regex的條件
     // note https://www.mongodb.com/docs/manual/reference/operator/query/regex/
     $or: [
-      { name: { $regex: keywordByUser, $options: "$i" } },
-      { name_en: { $regex: keywordByUser, $options: "$i" } },
-      { category: { $regex: keywordByUser, $options: "$i" } },
+      { name: { $regex: keywordByUser, $options: '$i' } },
+      { name_en: { $regex: keywordByUser, $options: '$i' } },
+      { category: { $regex: keywordByUser, $options: '$i' } },
     ],
   })
     .lean()
     .sort(sortOption[sortValue])
     .then((restaurantList) => {
-      res.render("index", {
+      res.render('index', {
         restaurantList,
         keyword: keywordByUser,
         sort,
@@ -210,12 +210,8 @@ router.get("/", (req, res) => {
 
     .catch((error) => {
       console.log(error);
-      res.render("error", { error });
+      res.render('error', { error });
     });
 });
-
-
-
-
 
 module.exports = router;
