@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
+    "node": true //可忽略require() and process的undefined
   },
   "extends": "eslint:recommended",
   "overrides": [],
@@ -11,6 +11,6 @@
     "sourceType": "module"
   },
   "rules": {
-    "eqeqeq": [2, "allow-null"]
+    "eqeqeq": [2, "allow-null"] //強制使用=== or !==
   }
 }

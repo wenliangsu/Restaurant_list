@@ -1,5 +1,6 @@
 {
   "cSpell.words": ["exphbs"],
+//eslint驗證語言
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -8,5 +9,12 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+//prettier-eslint套件
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnPaste": false, // required 
+  "editor.formatOnType": false, // required
+  "editor.formatOnSave": true, // optional 
+  "editor.formatOnSaveMode": "file", // required to format on save
+  "files.autoSave": "onFocusChange" // optional but recommended
 }

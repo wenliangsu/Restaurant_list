@@ -46,6 +46,6 @@ Ths application is about the restaurant list that you can add new one and search
    Express is listening on localhost:3000
    ```
 
-### Note
-
-This project is from the [Alphacamp class](https://tw.alphacamp.co)
+### Contributor
+*Wen Su*
+ 
