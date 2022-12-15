@@ -41,6 +41,12 @@ app.use(methodOverride('_method'));
 //引入passport並傳入裡面所寫的apsep
 usePassport(app)
 
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
 //將request導入路由器
 //note 要先導入method-override 才可以導入route，因為由上而下的執行關係
 app.use(routes);

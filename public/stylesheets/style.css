@@ -10,7 +10,7 @@ header {
   color: #226089;
 }
 
-.banner {
+.banner-login {
   position: relative;
   z-index: -1;
   margin: -5px;
@@ -18,7 +18,18 @@ header {
   background: #dddddd center center
     url("https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg");
   background-size: cover;
-  filter: blur(3px);
+  filter: blur(3px); /* 模糊化用 */
+}
+
+.banner-not-login {
+  position: relative;
+  z-index: -1;
+  margin: -5px;
+  height: 100%;
+  background: #dddddd center center
+    url("https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg");
+  background-size: cover;
+
 }
 
 .search-bar .search-bar-outer {

@@ -12,24 +12,34 @@
   <script src="https://kit.fontawesome.com/0062a7ab09.js" crossorigin="anonymous"></script>
 </head>
 
-<header>
-  <!-- navigation -->
-  <nav class="navbar navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-        <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
-          width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單" />
-        我的餐廳清單
-      </a>
-      <a class="navbar-brand" href="/restaurants/new"><i class="fa-solid fa-circle-plus"></i>
-        新增餐廳</a>
-    </div>
-  </nav>
+<body {{#unless isAuthenticated}}class="banner-not-login" {{/unless}}>
+  <header>
+    <!-- navigation -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+            width="30" height="30" class="d-inline-block align-top"
+            alt="{{#if isAuthenticated}}{{user.name}}-{{/if}}restaurant-list" />
+          {{#if isAuthenticated}}{{user.name}}'s {{/if}}Restaurant List
+        </a>
+        {{#if isAuthenticated}}
+        <div class="">
+          <a class="navbar-brand" href="/restaurants/new"><i class="fa-solid fa-circle-plus"></i>
+            Add restaurant</a>
+          <a class="navbar-brand" href="/users/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Logout</a>
+        </div>
+        {{/if}}
+      </div>
+    </nav>
 
-  <div class="banner"></div>
-</header>
+    {{#if isAuthenticated}}
+    <div class="banner-login"></div>
+    {{/if}}
+  </header>
 
-<body>
+
   {{! partial template }}
   {{{body}}}
 
