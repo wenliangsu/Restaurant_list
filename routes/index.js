@@ -8,12 +8,16 @@ const home = require('./modules/home');
 const restaurants = require('./modules/restaurants-edit');
 //引入users.js
 const users = require('./modules/users')
+//引入middleware 的auth.js
+const { authenticator } = require('../middleware/auth')
 
 //Section Router invoke
 //路由模組
-router.use('/', home);
-router.use('/restaurants', restaurants);
+// note 注意擺放順序，條件越嚴格越要往上擺
 router.use('/users', users)
+router.use('/restaurants', authenticator, restaurants);
+router.use('/', authenticator, home);
+
 
 //匯出路由器
 module.exports = router;
