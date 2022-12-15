@@ -1,6 +1,8 @@
 //Section Set the variable
 //for server, framework, kit and database｀
 const express = require('express');
+const session = require('express-session')
+const usePassport = require('./config/passport')
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 // 引入路由器
@@ -23,11 +25,21 @@ app.set('view engine', 'handlebars');
 //bootstrap, popper
 app.use(express.static('public'));
 
+//session處理
+app.use(session({
+  secret: 'WenProject',
+  resave: false,
+  saveUninitialized: true
+}))
+
 //body-parser處理
 app.use(express.urlencoded({ extended: true }));
 
 //路由的前置處理
 app.use(methodOverride('_method'));
+
+//引入passport並傳入裡面所寫的apsep
+usePassport(app)
 
 //將request導入路由器
 //note 要先導入method-override 才可以導入route，因為由上而下的執行關係
