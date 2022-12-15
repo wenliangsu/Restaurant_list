@@ -9,8 +9,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 //note 可直接使用mongoDB的連線位址: mongoose.connect('<mongoDB的連線url>')
 mongoose.connect(process.env.MONGO_URL, {
+  // note 版本6.0之後可以不用加入這三個
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 const db = mongoose.connection;
 //database connect status

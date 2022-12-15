@@ -177,6 +177,7 @@ const Restaurant = require('../../models/restaurant');
 
 //Method (4) operate the sort and search from mongoDB database
 router.get('/', (req, res) => {
+  const userId = req.user._id
   const sortValue = req.query.sort;
   const sortOption = {
     'a-z': { name: 'asc' },
@@ -188,7 +189,8 @@ router.get('/', (req, res) => {
 
   const keywordByUser = req.query.keyword ? req.query.keyword : '';
 
-  Restaurant.find({
+  Restaurant.find({ 
+    userId, 
     //note $or 來自官方文件，可以使用多種regular expression，可以搭配sort()同時使用。
     // note $regex為採用regular expression 用於資料搜尋，而$options可以設定＄regex的條件
     // note https://www.mongodb.com/docs/manual/reference/operator/query/regex/

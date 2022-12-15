@@ -37,6 +37,13 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  //連結data和user的關聯性
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);
