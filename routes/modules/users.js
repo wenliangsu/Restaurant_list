@@ -44,10 +44,12 @@ router.post('/register', (req, res) => {
 
 // todo 使用者登出
 router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) { return next(err)}
-  })
-  res.redirect('/users/login')
+  // note passport@0.6後 req.logout()改為asynchronous，所以放裡面等執行完在顯現flash
+    req.logout((err) => {
+      if (err) { return next(err)}
+      req.flash('success_msg', 'You already logout successfully')
+      res.redirect('/users/login')
+    })
 })
 
 module.exports = router

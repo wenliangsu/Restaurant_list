@@ -5,7 +5,9 @@ const session = require('express-session')
 const usePassport = require('./config/passport')
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
-// 引入路由器
+const flash = require('connect-flash')
+
+// 引入express的路由器
 const routes = require('./routes');
 const app = express();
 //server connection port
@@ -40,10 +42,13 @@ app.use(methodOverride('_method'));
 
 //引入passport並傳入裡面所寫的apsep
 usePassport(app)
-
+app.use(flash())
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+  //導入flash message
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 
