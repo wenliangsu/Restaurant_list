@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 const User = require('../../models/user')
 
 //Section Routes setting
@@ -30,15 +31,18 @@ router.post('/register', (req, res) => {
         console.log('This User is already registered')
         //keep the value from user
         res.render('register', { name, email, password, confirmPassword })
-      } else {
-        // create new user if it isn't registered
-        return  User.create({ name, email, password })
+      }
+        
+      // create new user if it isn't registered (use hash table)
+      return  bcrypt
+        .genSalt(10)
+        .then (salt => bcrypt.hash(password, salt))
+        .then (hash => User.create({ name, email, password: hash }) )
         .then(() => res.redirect('/'))
         .catch(error => {
           console.log(error)
           res.render('error', { error: error.message })
         })
-      }
     })
 })
 
