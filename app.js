@@ -10,14 +10,19 @@ const flash = require('connect-flash')
 // 引入express的路由器
 const routes = require('./routes');
 const app = express();
+
+// note 這段要擺在port之前，因為moongose.js裡面有執行process.env，所以要比port早
+//Database connection
+require('./config/mongoose');
+
 //server connection port
-const port = 3000;
+const port = process.env.PORT;
 
 //Section Database setting and connection
 //!!連線指令已搬移至config中
 
 //Connect the database
-require('./config/mongoose');
+
 
 //Section Set template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -29,7 +34,7 @@ app.use(express.static('public'));
 
 //session處理
 app.use(session({
-  secret: 'WenProject',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
