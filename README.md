@@ -1,5 +1,7 @@
 # Restaurant_list
 
+![ScteenShot](public/image/Screenshot.png)
+
 ## Introduction
 
 Ths application is about the restaurant list that you can add new one and search your favorite.
@@ -12,14 +14,17 @@ Ths application is about the restaurant list that you can add new one and search
 - Can search the restaurant what you like.
 - Can add the new restaurant, edit or delete
 - Can sort your restaurant list that can find what you want quickly
+- Support the login of Facebook
 
 ## Package environment
 
 - Express @4.16.4
 - Express-handleBars @3.0.0
-- Node.js
+- Node.js@16.18.0 (or lower)
 - Mongoose @5.9.13
 - Method-override@3.0.0
+- passport@0.6.0
+- passport-facebook@3.0.0
 
 ## How to use
 
@@ -47,5 +52,5 @@ Ths application is about the restaurant list that you can add new one and search
    ```
 
 ### Contributor
-*Wen Su*
- 
+
+_Wen Su_
