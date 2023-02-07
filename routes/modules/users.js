@@ -27,11 +27,38 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body;
+  const errors = [];
+  if (!email || !password || !confirmPassword) {
+    errors.push({ message: 'Email and password is required !!' });
+    console.log(errors);
+  }
+
+  if (password !== confirmPassword) {
+    errors.push({ message: 'The password is not matched by confirmPAssword' });
+    console.log(errors);
+  }
+
+  if (errors.length) {
+    return res.render('register', {
+      errors,
+      name,
+      email,
+      password,
+      confirmPassword
+    });
+  }
+
   User.findOne({ email }).then(user => {
     if (user) {
-      console.log('This User is already registered');
+      errors.push({ message: 'This User is already registered !' });
       // keep the value from user
-      res.render('register', { name, email, password, confirmPassword });
+      return res.render('register', {
+        errors,
+        name,
+        email,
+        password,
+        confirmPassword
+      });
     }
 
     // create new user if it isn't registered (use hash table)

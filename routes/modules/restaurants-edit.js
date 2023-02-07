@@ -10,11 +10,33 @@ router.get('/new', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const newData = req.body;
-  newData.userId = req.user._id;
+  const {
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description
+  } = req.body;
+
+  const { userId } = req.user._id;
 
   // notice 新增資料要注意所有的格式和名稱都要跟Schema一樣，不然會無法新增，增加了User認證後，無法使用save()來做，因為非增加新的instance
-  Restaurant.create(newData)
+  Restaurant.create({
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description,
+    userId
+  })
     .then(() => res.redirect('/'))
     .catch(error => {
       console.log(error);
@@ -33,7 +55,6 @@ router.get('/:id', (req, res) => {
   return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurantDetail => {
-      console.log(restaurantDetail);
       res.render('show', { restaurantDetail });
     })
     .catch(error => {
@@ -78,12 +99,21 @@ router.put('/:id', (req, res) => {
 // todo delete the restaurant information (Delete)
 router.delete('/:id', (req, res) => {
   const userId = req.user._id;
-
   const _id = req.params.id;
 
   return Restaurant.findOne({ _id, userId })
-    .then(restaurantData => restaurantData.remove())
-    .then(() => res.redirect('/'));
+    .then(restaurantData => {
+      if (userId !== _id) {
+        return req.flash('warning_msg', "The restaurant didn't exist!");
+      }
+
+      return restaurantData.remove();
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => {
+      console.log(error);
+      res.render('error', { error: error.message });
+    });
 });
 
 module.exports = router;
